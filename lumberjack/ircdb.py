@@ -229,14 +229,14 @@ class IRCDatabase(object):
                 ) channel_table
                 ORDER BY time DESC
         """
-        query = self._format_hidden(query, include_hidden)
+        query = self._format_hidden(query, include_hidden=False)
         return self.cursor.execute(query, (channel, id, n))
     
     def search(self, channel, searches, limit=500, offset=0):
         query = """SELECT * FROM lumberjack
                 WHERE channel = ?
         """
-        query = self._format_hidden(query, include_hidden)
+        query = self._format_hidden(query, include_hidden=False)
         args = [channel]
         if isinstance(searches, basestring):
             searches = [searches]

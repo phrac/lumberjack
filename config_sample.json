@@ -4,5 +4,5 @@
   "reconnect": 300, 
   "db": "lumberjack.db",
   "port": 6667, 
-  "channel": "#logbot_test"
+  "channel": "#lumberjack-test"
 }

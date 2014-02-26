@@ -12,7 +12,7 @@ var hash = "#";// The most recent hash value in the URL ("#search-poop")
 
 var current_offset = 50; // The current search offset;
 var most_recent_search = ""; //The last thing searched for. 
-var channel = null; // the channel being served
+//var channel = "forums"; // the channel being served
 
 // On Load
 $(function() {
@@ -117,7 +117,7 @@ function home()
   $("#searchoptions").hide();
   // Ajax call to populate table
   loading()
-  $.getJSON("json", { 'channel': channel},
+  $.getJSON("json", { },
   function(data){
     if (! data || ! data.length ){
         done_loading();
@@ -140,7 +140,7 @@ function refresh()
 {
   if( !refresh_on ) { return; }
   loading();
-  $.getJSON("json", { 'type':'update', 'id': last_id, 'channel': channel },
+  $.getJSON("json", { 'type':'update', 'id': last_id },
   function(data){
     $(data).each( function(i, item) { 
       try
@@ -175,7 +175,7 @@ function search_for( searchvalue )
   loading();
 
   // Ajax call to get search results
-  $.getJSON("json", {'search':searchvalue, 'channel': channel},
+  $.getJSON("json", {'search':searchvalue},
   function(data){
     if( data.length < 50 ) { $("#searchoptions").hide(); }
     $(data).each( function(i, item) { try
@@ -215,7 +215,7 @@ function context(id)
   loading();
 
   // Ajax call to get 'context' (find the comment at id 'id' and 'n' spaces around it). 
-  $.getJSON("json", {'type':'context', 'id':id, 'channel': channel },
+  $.getJSON("json", {'type':'context', 'id':id },
   function(data){
     if (! data || ! data.length ){
         done_loading();
@@ -261,7 +261,7 @@ function load_more_search_results()
 
   // Ajax call
   loading();
-  $.getJSON("json", {'type':'search', 'n':50, 'offset':current_offset, 'search':most_recent_search, 'channel': channel },
+  $.getJSON("json", {'type':'search', 'n':50, 'offset':current_offset, 'search':most_recent_search },
   function(data){
     add_page_break(true);
     // $("<tr class='pagebreak'><td></td> <td>------------------------------</td> <td></td></tr>").prependTo("#irc");
@@ -284,7 +284,7 @@ function page_up()
 {
   // Ajax call to populate table
   loading();
-  $.getJSON("json", {'type':'context', 'id':first_id, 'n':20, 'context':'before', 'channel': channel },
+  $.getJSON("json", {'type':'context', 'id':first_id, 'n':20, 'context':'before' },
   function(data){
     add_page_break(true);
       
@@ -304,7 +304,7 @@ function page_down()
 {
   loading();
 
-  $.getJSON("json", {'type':'context', 'id':last_id, 'n':20, 'context':'after', 'channel': channel },
+  $.getJSON("json", {'type':'context', 'id':last_id, 'n':20, 'context':'after' },
   function(data){
     add_page_break(false);
     // $("<tr class='pagebreak'><td></td> <td>------------------------------</td> <td></td></tr>").appendTo("#irc");
@@ -344,7 +344,7 @@ function tag( tagname )
   $('#irc').removeClass("searchresult");
 
   loading();
-  $.getJSON("json", {'type':'tag', 'tag':tagname, 'n':15, 'channel': channel },
+  $.getJSON("json", {'type':'tag', 'tag':tagname, 'n':15 },
   function(data){
     $(data).each( function(i, item) { 
       $("#irc").append(irc_render(item));
